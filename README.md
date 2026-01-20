@@ -39,8 +39,24 @@ src/
 ├── motion.py      # Motion primitives (step_sim, IK move_ee_pose, open/close gripper)
 ├── policy.py      # FSM policy (states, transitions, grasp verification, recovery adaptation)
 └── main.py        # CLI entry point, wiring, demo mode selection
+```
 
-## 5. Interaction Logic (FSM)
+## 5. How to Run
+
+### 1. Installation
+```bash
+# Clone the repository
+git clone [https://github.com/PAyush15/gripping-challenge-neura.git](https://github.com/PAyush15/gripping-challenge-neura.git)
+cd gripping-challenge-neura
+
+# Setup virtual environment
+python3 -m venv pybullet_sim_env
+source pybullet_sim_env/bin/activate
+pip install -r requirements.txt
+
+```
+
+## 6. Interaction Logic (FSM)
 
 The manipulation skill is governed by a Finite State Machine (FSM) to ensure structured transitions between motion primitives.
 
@@ -57,7 +73,7 @@ The manipulation skill is governed by a Finite State Machine (FSM) to ensure str
 
 ---
 
-## 6. Failure Mode and Mitigation (Recovery Demo)
+## 7. Failure Mode and Mitigation (Recovery Demo)
 
 **Failure Condition:** The system detects an unsuccessful grasp if contact sensors report insufficient pressure/points after the `CLOSE` state.
 
@@ -69,25 +85,10 @@ The manipulation skill is governed by a Finite State Machine (FSM) to ensure str
 
 ---
 
-## 7. Use of AI Tools During Development
+## 8. Use of AI Tools During Development
 
 AI tools were utilized for the following tasks:
 * Clarifying specific **PyBullet API** function signatures.
 * Suggesting a **modular directory structure** (`src/` organization).
 * Assisting with the implementation of **CLI arguments** (`argparse`) for demo selection.
 * *Note: All logic regarding the state machine, failure detection, and recovery adaptation was manually developed.*
-
----
-
-## 8. How to Run
-
-### 1. Installation
-```bash
-# Clone the repository
-git clone [https://github.com/PAyush15/gripping-challenge-neura.git](https://github.com/PAyush15/gripping-challenge-neura.git)
-cd gripping-challenge-neura
-
-# Setup virtual environment
-python3 -m venv pybullet_sim_env
-source pybullet_sim_env/bin/activate
-pip install -r requirements.txt
