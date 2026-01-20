@@ -69,7 +69,6 @@ python -m src.main
 
 # Run (detected failure and recovery demo):
 python -m src.main --recovery-demo
-
 ```
 
 ## 6. Interaction Logic (FSM)
