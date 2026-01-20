@@ -8,6 +8,10 @@
 
 ---
 
+
+https://github.com/user-attachments/assets/b301e827-03c6-4c88-ba08-9cc9bc1c23df
+
+
 ## 1. Summary
 I implemented a minimal manipulation skill that grasps a single object (a cube on a table) using the Franka Panda two-finger parallel gripper in PyBullet. Finite state machine (FSM) is used as the main logic with clear motion primitives (IK-based approach/descend/lift and open/close). One failure mode (bad grasp due to pose error) is detected and mitigated via a recovery routine that retries with adapted parameters.
 
