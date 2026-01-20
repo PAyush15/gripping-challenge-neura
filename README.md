@@ -62,7 +62,7 @@ source pybullet_sim_env/bin/activate
 pip install -r requirements.txt
 ```
 
-### Running the demos
+### 2. Running the demos
 ```
 # Run (success demo):
 python -m src.main
