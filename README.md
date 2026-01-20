@@ -1,114 +1,93 @@
 # gripping-challenge-neura
 
-Franka Panda Hand/Gripper MVP Skill
-Technical Challenge (Option 1)
-Author: Ayush Vasantbhai Patel
+# Franka Panda Hand/Gripper MVP Skill
+### Technical Challenge – Hand/Gripper MVP Skill (Option 1)
 
-Contact: patelayushvasantbhai@gmail.com
+**Author:** Ayush Vasantbhai Patel  
+**Contact:** [patelayushvasantbhai@gmail.com](mailto:patelayushvasantbhai@gmail.com)
 
-1. Summary
-This repository contains a minimal manipulation skill implemented for the Franka Panda arm using a two-finger parallel gripper in PyBullet.
+---
 
-The logic is driven by a Finite State Machine (FSM) that utilizes motion primitives (IK-based approach, descend, lift). A key feature of this implementation is its Failure Detection and Mitigation system, which identifies unsuccessful grasps and triggers a recovery routine to adapt parameters and retry the task.
+## 1. Summary
+I implemented a minimal manipulation skill that grasps a single object (a cube on a table) using the Franka Panda two-finger parallel gripper in PyBullet. Finite state machine (FSM) is used as the main logic with clear motion primitives (IK-based approach/descend/lift and open/close). One failure mode (bad grasp due to pose error) is detected and mitigated via a recovery routine that retries with adapted parameters.
 
-2. Tech Stack & Environment
-Simulator: PyBullet
+---
 
-OS: Ubuntu 22.04
+## 2. Tools, Technologies and Gripper Model
 
-Python: 3.10
+| Category | Specification |
+| :--- | :--- |
+| **Simulator** | PyBullet (OS: Ubuntu 22.04, Python 3.10) |
+| **Robot Model** | Franka Panda arm + two-finger gripper (URDF from pybullet_data) |
+| **Scene** | Plane + table + cube_small (pybullet_data assets) |
+| **Control** | PyBullet inverse kinematics + joint position control |
 
-Robot Model: Franka Panda + Parallel Gripper (URDF)
+---
 
-Assets: pybullet_data (plane, table, small cube)
+## 3. Sensing Assumptions and Interaction Logic
+* **Sensing Assumption:** The object pose is taken from the simulator (ground truth). In a real system, this would be provided by a perception module (e.g., RGB-D pose estimate) and would include noise.
+* **Policy:** The behavior is implemented via FSM and is deterministic.
 
-Control: Inverse Kinematics (IK) + Joint Position Control
+---
 
-3. Sensing & Interaction Logic
-Sensing Assumptions: The system currently pulls object poses (ground truth) directly from the simulator. In production, this would be replaced by a perception module (e.g., RGB-D) subject to noise.
+## 4. Code Structure
 
-Policy: The behavior is deterministic, managed via a structured FSM.
+```text
+src/
+├── env.py         # Simulation setup, world (table/cube), Panda loading, joint/link indexing
+├── kinematics.py  # Grasp target generation (pregrasp/grasp/lift) and EE orientation helpers
+├── motion.py      # Motion primitives (step_sim, IK move_ee_pose, open/close gripper)
+├── policy.py      # FSM policy (states, transitions, grasp verification, recovery adaptation)
+└── main.py        # CLI entry point, wiring, demo mode selection
 
-4. Code Structure
-Plaintext
-.
-├── src/
-│   ├── env.py         # Simulation setup (world, table, cube, Panda loading)
-│   ├── kinematics.py  # Grasp target generation & End-Effector (EE) helpers
-│   ├── motion.py      # Motion primitives (IK move, open/close gripper)
-│   ├── policy.py      # FSM policy (states, transitions, recovery logic)
-│   └── main.py        # CLI entry point and demo orchestration
-├── requirements.txt   # Project dependencies
-└── README.md          # Project documentation
-5. Interaction Logic (FSM)
-The robot transitions through the following states to complete a grasp:
+## 5. Interaction Logic (FSM)
 
-RESET: Initialize robot and environment.
+The manipulation skill is governed by a Finite State Machine (FSM) to ensure structured transitions between motion primitives.
 
-APPROACH: Move EE to a safe pre-grasp pose above the object.
+| State | Description |
+| :--- | :--- |
+| **APPROACH** | Moves the end-effector to a safe pre-grasp position above the target object. |
+| **DESCEND** | Lowers the gripper to the specific grasp pose (Object Z + offset). |
+| **CLOSE** | Actuates the parallel fingers to secure the object. |
+| **VERIFY_GRASP** | Checks for valid contact points to detect if the grasp was successful. |
+| **LIFT / HOLD** | Elevates the object to a target height and maintains position. |
+| **RECOVER** | Triggered upon grasp failure to adjust parameters and retry. |
 
-DESCEND: Lower EE to the computed grasp pose.
 
-CLOSE: Actuate gripper fingers.
 
-VERIFY_GRASP: Check for contact points between the robot and object.
+---
 
-LIFT/HOLD: Elevate the object and maintain position.
+## 6. Failure Mode and Mitigation (Recovery Demo)
 
-SUCCESS: Mission completed.
+**Failure Condition:** The system detects an unsuccessful grasp if contact sensors report insufficient pressure/points after the `CLOSE` state.
 
-RECOVER: Triggered if VERIFY_GRASP fails.
+### Recovery Workflow:
+1. **Retract:** Open gripper and return to a safe clearance height.
+2. **Re-evaluate:** Re-sample object pose from the environment.
+3. **Adapt:** Incrementally reduce the `grasp_z_offset` (descend deeper) to ensure better finger-to-object contact.
+4. **Retry:** Re-initiate the sequence from the **APPROACH** state (Max 3 retries).
 
-6. Failure Mode and Mitigation
-Failure Detected: Unsuccessful grasp (insufficient contact points) caused by pose errors or improper grasp depth.
+---
 
-Recovery Strategy:
-Open & Reset: Gripper opens and moves to a safe clearance height.
+## 7. Use of AI Tools During Development
 
-Rescan: Re-calculates object pose (simulating a sensor refresh).
+AI tools were utilized for the following tasks:
+* Clarifying specific **PyBullet API** function signatures.
+* Suggesting a **modular directory structure** (`src/` organization).
+* Assisting with the implementation of **CLI arguments** (`argparse`) for demo selection.
+* *Note: All logic regarding the state machine, failure detection, and recovery adaptation was manually developed.*
 
-Parameter Adaptation: Grasp_Z is incrementally reduced (deeper descend) per retry, bounded to prevent table collision.
+---
 
-Retry: Re-enters the APPROACH state (limited to 3 retries).
+## 8. How to Run
 
-7. AI Tools Usage
-AI tools were utilized for:
-
-Clarifying PyBullet API syntax.
-
-Structuring modular Python file organization.
-
-Implementing argparse for the CLI.
-
-Assisting with documentation formatting.
-
-Note: All core control logic, FSM transitions, and recovery strategies were manually implemented.
-
-8. Installation & Usage
-Setup Environment
-Bash
+### 1. Installation
+```bash
 # Clone the repository
-git clone https://github.com/PAyush15/gripping-challenge-neura.git
+git clone [https://github.com/PAyush15/gripping-challenge-neura.git](https://github.com/PAyush15/gripping-challenge-neura.git)
 cd gripping-challenge-neura
 
-# Create and activate virtual environment
+# Setup virtual environment
 python3 -m venv pybullet_sim_env
 source pybullet_sim_env/bin/activate
-
-# Install dependencies
 pip install -r requirements.txt
-Run Demos
-Standard Success Demo:
-
-Bash
-python -m src.main
-Recovery/Failure Mitigation Demo:
-
-Bash
-python -m src.main --recovery-demo
-9. Future Roadmap
-Perception Integration: Replace ground-truth poses with noisy sensor data.
-
-Slip Detection: Monitor contact forces during the HOLD state.
-
-Robot Agnostic: The policy is designed to be robot-agnostic, requiring only an EE controller and gripper primitives.
