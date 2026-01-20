@@ -18,12 +18,12 @@ def main():
     plane_id, table_id, box_id = load_world(table_pos=(0.9, 0.0, 0.0), box_pos=(0.3, 0.0, 0.65))
     robot_id = load_panda(base_pos=(0.0, 0.0, 0.0), fixed_base=True)
 
-    time.sleep(3)
-
     arm_joints, finger_joints, ee_link = get_panda_indices(robot_id)
 
-    home_q = [0.0, -0.6, 0.0, -2.2, 0.0, 2.0, 0.8]
+    home_q = [0.0, -1.0, 0.0, -1.8, 0.0, 2.0, 0.8]
     reset_home(robot_id, arm_joints, finger_joints, home_q)
+
+    time.sleep(3)
 
     cfg = PolicyConfig()
     result = run_fsm(robot_id, box_id, arm_joints, finger_joints, ee_link, cfg, recovery_demo=args.recovery_demo)
