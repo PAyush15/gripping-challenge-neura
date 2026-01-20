@@ -54,6 +54,12 @@ python3 -m venv pybullet_sim_env
 source pybullet_sim_env/bin/activate
 pip install -r requirements.txt
 
+# Run (success demo):
+python -m src.main
+
+# Run (recovery demo):
+python -m src.main --recovery-demo
+
 ```
 
 ## 6. Interaction Logic (FSM)
