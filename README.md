@@ -46,7 +46,7 @@ src/
 ### 1. Installation
 ```bash
 # Clone the repository
-git clone [https://github.com/PAyush15/gripping-challenge-neura.git](https://github.com/PAyush15/gripping-challenge-neura.git)
+git clone https://github.com/PAyush15/gripping-challenge-neura.git
 cd gripping-challenge-neura
 
 # Setup virtual environment
