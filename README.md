@@ -60,11 +60,14 @@ cd gripping-challenge-neura
 python3 -m venv pybullet_sim_env
 source pybullet_sim_env/bin/activate
 pip install -r requirements.txt
+```
+
+### Running the demos
 
 # Run (success demo):
 python -m src.main
 
-# Run (recovery demo):
+# Run (detected failure and recovery demo):
 python -m src.main --recovery-demo
 
 ```
