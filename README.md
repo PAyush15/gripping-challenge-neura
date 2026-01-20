@@ -50,7 +50,7 @@ src/
 
 ## 5. How to Run
 
-### 1. Installation
+### 1. Installation and set-up
 ```bash
 # Clone the repository
 git clone https://github.com/PAyush15/gripping-challenge-neura.git
@@ -63,7 +63,7 @@ pip install -r requirements.txt
 ```
 
 ### Running the demos
-
+```
 # Run (success demo):
 python -m src.main
 
