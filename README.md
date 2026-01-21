@@ -106,6 +106,7 @@ The manipulation skill is governed by a Finite State Machine (FSM) to ensure str
 AI tools were used for the following tasks:
 * Clarifying specific **PyBullet API** function signatures.
 * Suggesting a **modular directory structure** (`src/` organization).
-* Assisting with the implementation of **CLI arguments** (`argparse`) for demo selection.
+* Assisting with the implementation of **CLI arguments** (`argparse`) for demo selection (--recovery-demo).
 * Creating documentation
+
 All logic regarding the state machine, failure detection, and recovery adaptation was manually developed.*
