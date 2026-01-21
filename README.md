@@ -16,7 +16,7 @@ https://github.com/user-attachments/assets/b929ab28-734e-4327-954a-66e02b36ad26
 
 
 ## 1. Summary
-I implemented a minimal manipulation skill that grasps a single object (a cube on a table) using the Franka Panda two-finger parallel gripper in PyBullet. Finite state machine (FSM) is used as the main logic with clear motion primitives (IK-based approach/descend/lift and open/close). One failure mode (bad grasp due to pose error) is detected and mitigated via a recovery routine that retries with adapted parameters.
+I implemented a minimal manipulation skill that grasps a single object (a small cube on a table) using the Franka Panda two-finger parallel gripper in PyBullet. Finite state machine (FSM) is used as the main logic with clear motion primitives (IK-based approach/descend/lift and open/close). One failure mode (bad grasp due to pose error) is detected and mitigated via a recovery routine that retries with adapted parameters.
 
 ---
 
@@ -57,7 +57,7 @@ src/
 git clone https://github.com/PAyush15/gripping-challenge-neura.git
 cd gripping-challenge-neura
 
-# Setup virtual environment
+# Setup virtual environment and install requirements
 python3 -m venv pybullet_sim_env
 source pybullet_sim_env/bin/activate
 pip install -r requirements.txt
