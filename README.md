@@ -109,4 +109,4 @@ AI tools were used for the following tasks:
 * Assisting with the implementation of **CLI arguments** (`argparse`) for demo selection (--recovery-demo).
 * Creating documentation
 
-All logic regarding the state machine, failure detection, and recovery adaptation was manually developed.*
+All logic regarding the state machine, failure detection, and recovery adaptation was developed by me.
