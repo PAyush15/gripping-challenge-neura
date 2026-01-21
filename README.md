@@ -24,7 +24,8 @@ I implemented a minimal manipulation skill that grasps a single object (a cube o
 
 | Category | Specification |
 | :--- | :--- |
-| **Simulator** | PyBullet (OS: Ubuntu 22.04, Python 3.10) |
+| **OS** | Ubuntu 22.04, Python 3.10) |
+| **Simulator** | PyBullet |
 | **Robot Model** | Franka Panda arm + two-finger gripper (URDF from pybullet_data) |
 | **Scene** | Plane + table + cube_small (pybullet_data assets) |
 | **Control** | PyBullet inverse kinematics + joint position control |
@@ -102,8 +103,9 @@ The manipulation skill is governed by a Finite State Machine (FSM) to ensure str
 
 ## 8. Use of AI Tools During Development
 
-AI tools were utilized for the following tasks:
+AI tools were used for the following tasks:
 * Clarifying specific **PyBullet API** function signatures.
 * Suggesting a **modular directory structure** (`src/` organization).
 * Assisting with the implementation of **CLI arguments** (`argparse`) for demo selection.
-* *Note: All logic regarding the state machine, failure detection, and recovery adaptation was manually developed.*
+* Creating documentation
+All logic regarding the state machine, failure detection, and recovery adaptation was manually developed.*
